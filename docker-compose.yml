@@ -1,0 +1,9 @@
+version: '3'
+services:
+  flask:
+    build: .
+    container_name: flask_container
+    # environment:
+    #   - FLASK_APP=wsgi.py
+    ports:
+      - "56733:80" 
