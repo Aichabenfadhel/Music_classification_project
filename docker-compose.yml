@@ -1,9 +1,24 @@
-version: '3'
 services:
-  flask:
-    build: .
-    container_name: flask_container
-    # environment:
-    #   - FLASK_APP=wsgi.py
+  svm_service:
+    build:
+      context: ./app/svm_service  # Path to the build context for Dockerfile1
+      dockerfile: Dockerfile  # Specify the Dockerfile location relative to context
+    container_name: svm_service_container
     ports:
-      - "56733:80" 
+      - "8501:8501"  # Map port 8501 on the host to port 8501 in the container
+    volumes:
+      - ./app/svm_service/Test_Music:/app/Test_Music  # Map the Test_Music folder for persistence
+    environment:
+      - PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+
+  vgg_service:
+    build:
+      context: ./app/vgg_service  # Path to the build context for Dockerfile2
+      dockerfile: Dockerfile  # Specify the Dockerfile location relative to context
+    container_name: vgg_service_container
+    ports:
+      - "8502:8501"  
+    volumes:
+      - ./app/vgg_service/Test_Music:/app/Test_Music  # Map the Test_Music folder for persistence
+    environment:
+      - PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
